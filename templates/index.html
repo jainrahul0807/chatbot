@@ -160,7 +160,7 @@
             font-family: inherit;
         }
 
-        #sendMessage {
+        #sendMessage, #micButton {
             background: linear-gradient(135deg, #6366F1, #A855F7);
             color: white;
             border: none;
@@ -176,7 +176,7 @@
             flex-shrink: 0;
         }
 
-        #sendMessage:hover {
+        #sendMessage:hover, #micButton:hover {
             transform: scale(1.05);
         }
 
@@ -348,7 +348,7 @@
                 padding: 10px 12px;
             }
 
-            #sendMessage {
+            #sendMessage, #micButton {
                 width: 36px;
                 height: 36px;
             }
@@ -454,7 +454,7 @@
     <!-- Chatbot Window -->
     <div id="chatbotContainer">
         <div id="chatbotHeader">
-            AI Chatbot
+            DigiBot
             <span id="closeChat">✖</span>
         </div>
 
@@ -483,12 +483,21 @@
         <div id="chatMessages" style="display: none;"></div>
         <div id="chatInput" style="display: none;">
             <input type="text" id="userMessage" placeholder="Type a message..." />
+
+            <button id="micButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"/>
+                    <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5"/>
+                  </svg>
+            </button>
             <button id="sendMessage">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M22 2L11 13"></path>
                     <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
                 </svg>
             </button>
+            
+
         </div>
     </div>
 
@@ -548,27 +557,63 @@
         let chatInitialized = false;
 
 <!--        // Toggle Chatbot Window-->
-        chatbotIcon.addEventListener("click", () => {
-            if (chatbotContainer.style.display === "none" || !chatbotContainer.style.display) {
-                chatbotContainer.style.display = "flex";
+//         chatbotIcon.addEventListener("click", () => {
+//             if (chatbotContainer.style.display === "none" || !chatbotContainer.style.display) {
+//                 chatbotContainer.style.display = "flex";
 
-<!--                // If chat hasn't been initialized yet, show welcome screen-->
-                if (!chatInitialized) {
-                    welcomeScreen.style.display = "flex";
-                    nameInputScreen.style.display = "none";
-                    chatMessages.style.display = "none";
-                    chatInput.style.display = "none";
+// <!--                // If chat hasn't been initialized yet, show welcome screen-->
+//                 if (!chatInitialized) {
+//                     welcomeScreen.style.display = "flex";
+//                     nameInputScreen.style.display = "none";
+//                     chatMessages.style.display = "none";
+//                     chatInput.style.display = "none";
+//                 } else {
+//                     // If chat was initialized but closed, just show the chat interface
+//                     welcomeScreen.style.display = "none";
+//                     nameInputScreen.style.display = "none";
+//                     chatMessages.style.display = "flex";
+//                     chatInput.style.display = "flex";
+//                 }
+//             } else {
+//                 chatbotContainer.style.display = "none";
+//             }
+//         });
+
+            // Modify the existing chatbotIcon click event listener
+            chatbotIcon.addEventListener("click", () => {
+                if (chatbotContainer.style.display === "none" || !chatbotContainer.style.display) {
+                    chatbotContainer.style.display = "flex";
+
+                    // If chat has been fully initialized before, reset to initial state
+                    if (chatInitialized) {
+                        // Clear previous chat messages
+                        chatMessages.innerHTML = '';
+                        
+                        // Show welcome screen again
+                        welcomeScreen.style.display = "flex";
+                        nameInputScreen.style.display = "none";
+                        chatMessages.style.display = "none";
+                        chatInput.style.display = "none";
+                        
+                        // Reset chat initialization flag
+                        chatInitialized = false;
+                        
+                        // Clear stored username
+                        userName = "";
+                        
+                        // Clear name input
+                        nameInput.value = "";
+                    } else {
+                        // If chat hasn't been initialized, show welcome screen as before
+                        welcomeScreen.style.display = "flex";
+                        nameInputScreen.style.display = "none";
+                        chatMessages.style.display = "none";
+                        chatInput.style.display = "none";
+                    }
                 } else {
-                    // If chat was initialized but closed, just show the chat interface
-                    welcomeScreen.style.display = "none";
-                    nameInputScreen.style.display = "none";
-                    chatMessages.style.display = "flex";
-                    chatInput.style.display = "flex";
+                    chatbotContainer.style.display = "none";
                 }
-            } else {
-                chatbotContainer.style.display = "none";
-            }
-        });
+            });
 
 <!--        // Get Started Button-->
         getStartedBtn.addEventListener("click", () => {
@@ -706,6 +751,20 @@
             e.stopPropagation();
         });
 
+        document.getElementById("micButton").addEventListener("click", function() {
+    fetch("/speech")  // Calls Flask speech-to-text API
+    .then(response => response.json())
+    .then(data => {
+        let recognizedText = data.recognized_text;
+        if (recognizedText) {
+            document.getElementById("userMessage").value = recognizedText; // Autofill input
+            document.getElementById("sendMessage").click(); // Send automatically
+        } else {
+            alert("Couldn't recognize speech. Try again.");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
 <!--        // Handle window resize-->
         window.addEventListener("resize", () => {
 <!--            // If chat is open, adjust scroll-->

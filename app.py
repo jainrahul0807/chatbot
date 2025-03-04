@@ -5,6 +5,8 @@ from query_ai import query_gemini
 from knowledge_base import search_knowledge_base, save_to_knowledge_base
 from prompts import get_prompt
 import os
+from speech_to_text import recognize_speech
+
 # Initialize Flask app
 app = Flask(__name__, static_folder="static")
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -54,6 +56,12 @@ def chat():
 @app.route("/script/chatbot.js")
 def chatbot_script():
     return send_from_directory("static", "chatbot.js")
+
+@app.route('/speech', methods=['GET'])
+def speech_to_text():
+    """Endpoint to recognize speech and return text."""
+    text = recognize_speech()
+    return jsonify({"recognized_text": text})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Use Render's default port
