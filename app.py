@@ -7,7 +7,7 @@ from prompts import get_prompt
 
 # Initialize Flask app
 app = Flask(__name__, static_folder="static")
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
