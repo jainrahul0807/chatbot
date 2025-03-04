@@ -665,8 +665,9 @@
 
         function displayMessage(text, sender) {
             let messageDiv = document.createElement("div");
-            messageDiv.textContent = text;
+<!--            messageDiv.textContent = text;-->
             messageDiv.classList.add(sender, "message");
+            messageDiv.innerHTML= text;
 
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight; // Keep the latest message in view
