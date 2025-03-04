@@ -4,7 +4,7 @@ import logging
 from query_ai import query_gemini
 from knowledge_base import search_knowledge_base, save_to_knowledge_base
 from prompts import get_prompt
-
+import os
 # Initialize Flask app
 app = Flask(__name__, static_folder="static")
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -51,9 +51,9 @@ def chat():
         logging.error(f"Error in /chat endpoint: {e}")
         return jsonify({"response": "An error occurred while processing your request."})
 
-@app.route("/script")
+@app.route("/script/chatbot.js")
 def chatbot_script():
-    return send_from_directory("static", "index.html")
+    return send_from_directory("static", "chatbot.js")
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Use Render's default port
