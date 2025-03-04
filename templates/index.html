@@ -685,6 +685,20 @@
 
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight; // Keep the latest message in view
+            let words = text.split(" ");  // Split text into words
+            messageDiv.innerHTML = "";  // Clear initial content
+            let index = 0;
+
+            function typeWords() {
+                if (index < words.length) {
+                    messageDiv.innerHTML += words[index] + " ";  // Append word
+                    index++;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;  // Auto-scroll
+                    setTimeout(typeWords, 20); // Adjust speed (Lower = Faster)
+                }
+            }
+
+            typeWords();
         }
 
 <!--        // Prevent clicks inside chatbot container from closing it-->
