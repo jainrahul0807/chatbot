@@ -2,13 +2,13 @@ import google.generativeai as genai
 import logging
 from content import get_response_format
 from prompts import get_prompt
-
+import os
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 # Set up Gemini API Key (Replace with your API Key)
-GEMINI_API_KEY = "your-api-key"
-genai.configure(api_key=GEMINI_API_KEY)
+# GEMINI_API_KEY = "your-api-key"
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def query_gemini(prompt, query_type="default"):
     """
