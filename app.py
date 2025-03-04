@@ -56,7 +56,6 @@ def chatbot_script():
     return send_from_directory("static", "index.html")
 
 if __name__ == '__main__':
-    from waitress import serve
-    # app.run(debug=True)
-    serve( app , host="0.0.0.0",port=8000)
+    port = int(os.environ.get("PORT", 10000))  # Use Render's default port
+    app.run(host="0.0.0.0", port=port, debug=True)
 
