@@ -7,7 +7,7 @@ from prompts import get_prompt
 logging.basicConfig(level=logging.INFO)
 
 # Set up Gemini API Key (Replace with your API Key)
-GEMINI_API_KEY = "AIzaSyDamAcIzDCzgmr7A7T0Mj3xmi4qTiu7BcU"
+GEMINI_API_KEY = "your-api-key"
 genai.configure(api_key=GEMINI_API_KEY)
 
 def query_gemini(prompt, query_type="default"):
