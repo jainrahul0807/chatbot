@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: chatbot
+    runtime: python
+    region: oregon # You can change this based on your location
+    plan: free # Change to "starter" if you need a paid plan
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Set to false if using Render's environment settings
