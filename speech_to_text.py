@@ -1,18 +1,24 @@
+import sounddevice as sd
+import numpy as np
 import speech_recognition as sr
 
 def recognize_speech():
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Listening...")
-        recognizer.adjust_for_ambient_noise(source)
-        try:
-            audio = recognizer.listen(source, timeout=5)
-            text = recognizer.recognize_google(audio)
-            return text
-        except sr.UnknownValueError:
-            return "Could not understand audio."
-        except sr.RequestError:
-            return "Could not request results, check your connection."
+    samplerate = 44100  # Sampling rate
+    duration = 5  # seconds
+    print("Recording...")
 
-if __name__ == "__main__":
-    print(recognize_speech())
+    audio_data = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1, dtype='int16')
+    sd.wait()  # Wait for the recording to finish
+    print("Recording done!")
+
+    recognizer = sr.Recognizer()
+    audio = sr.AudioData(audio_data.tobytes(), samplerate, 2)
+
+    try:
+        text = recognizer.recognize_google(audio)
+        print("Recognized Speech:", text)
+        return text
+    except sr.UnknownValueError:
+        return "Could not understand audio"
+    except sr.RequestError:
+        return "Could not request results"
