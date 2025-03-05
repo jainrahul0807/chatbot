@@ -21,12 +21,12 @@
 
         /* Chatbot Window */
         #chatbotContainer {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            max-width: 90vw;
-            background: white;
-            border-radius: 16px;
+<!--            position: fixed;-->
+<!--            bottom: 20px;-->
+<!--            right: 20px;-->
+<!--            max-width: 90vw;-->
+<!--            /* background: white; */-->
+<!--            border-radius: 16px;-->
             width: 350px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             display: flex;
@@ -34,7 +34,7 @@
             overflow: hidden;
             z-index: 999;
             height: 500px;
-            max-height: 80vh;
+<!--            max-height: 80vh;-->
         }
 
         /* Chatbot Header */
@@ -298,12 +298,12 @@
 
         /* Mobile Styles (Small devices) */
         @media (max-width: 480px) {
-            #chatbotContainer {
-                width: calc(100vw - 20px);
-                max-width: none;
-                height: calc(100vh - 100px);
-                max-height: none;
-            }
+<!--            #chatbotContainer {-->
+<!--                width: calc(100vw - 20px);-->
+<!--                max-width: none;-->
+<!--                height: calc(100vh - 100px);-->
+<!--                max-height: none;-->
+<!--            }-->
 
             #userMessage {
                 padding: 10px 12px;
@@ -321,10 +321,10 @@
 
         /* Tablet Styles (Medium devices) */
         @media (min-width: 481px) and (max-width: 768px) {
-            #chatbotContainer {
-                width: 340px;
-                height: 450px;
-            }
+<!--            #chatbotContainer {-->
+<!--                width: 340px;-->
+<!--                height: 450px;-->
+<!--            }-->
         }
 
         /* Large Screen Styles */
@@ -336,30 +336,30 @@
         }
 
         /* Landscape Mode on Mobile */
-        @media (max-height: 500px) {
-            #chatbotContainer {
-                height: calc(100vh - 80px);
-                bottom: 70px;
-            }
+<!--        @media (max-height: 500px) {-->
+<!--&lt;!&ndash;            #chatbotContainer {&ndash;&gt;-->
+<!--&lt;!&ndash;                height: calc(100vh - 80px);&ndash;&gt;-->
+<!--&lt;!&ndash;                bottom: 70px;&ndash;&gt;-->
+<!--&lt;!&ndash;            }&ndash;&gt;-->
 
-            #chatbotHeader {
-                padding: 10px 15px;
-            }
+<!--            #chatbotHeader {-->
+<!--                padding: 10px 15px;-->
+<!--            }-->
 
-            #chatInput {
-                padding: 8px;
-            }
+<!--            #chatInput {-->
+<!--                padding: 8px;-->
+<!--            }-->
 
-            #welcomeScreen, #nameInputScreen {
-                padding: 10px;
-            }
+<!--            #welcomeScreen, #nameInputScreen {-->
+<!--                padding: 10px;-->
+<!--            }-->
 
-            #robotAnimationContainer {
-                width: 150px;
-                height: 100px;
-                margin-bottom: 10px;
-            }
-        }
+<!--            #robotAnimationContainer {-->
+<!--                width: 150px;-->
+<!--                height: 100px;-->
+<!--                margin-bottom: 10px;-->
+<!--            }-->
+<!--        }-->
     </style>
 </head>
 <body>
@@ -367,7 +367,7 @@
     <div id="chatbotContainer">
         <div id="chatbotHeader">
             DigiBot
-<!--            <span id="closeChat">✖</span>-->
+            <span id="closeChat">✖</span>
         </div>
 
         <!-- Welcome Screen -->
