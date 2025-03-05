@@ -133,7 +133,7 @@
             font-family: inherit;
         }
 
-        #sendMessage, #micButton {
+        #sendMessage{
             background: linear-gradient(135deg, #6366F1, #A855F7);
             color: white;
             border: none;
@@ -149,7 +149,7 @@
             flex-shrink: 0;
         }
 
-        #sendMessage:hover, #micButton:hover {
+        #sendMessage:hover {
             transform: scale(1.05);
         }
 
@@ -297,35 +297,35 @@
         }
 
         /* Mobile Styles (Small devices) */
-        @media (max-width: 480px) {
-<!--            #chatbotContainer {-->
-<!--                width: calc(100vw - 20px);-->
-<!--                max-width: none;-->
-<!--                height: calc(100vh - 100px);-->
-<!--                max-height: none;-->
+<!--        @media (max-width: 480px) {-->
+<!--&lt;!&ndash;            #chatbotContainer {&ndash;&gt;-->
+<!--&lt;!&ndash;                width: calc(100vw - 20px);&ndash;&gt;-->
+<!--&lt;!&ndash;                max-width: none;&ndash;&gt;-->
+<!--&lt;!&ndash;                height: calc(100vh - 100px);&ndash;&gt;-->
+<!--&lt;!&ndash;                max-height: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            }&ndash;&gt;-->
+
+<!--            #userMessage {-->
+<!--                padding: 10px 12px;-->
 <!--            }-->
 
-            #userMessage {
-                padding: 10px 12px;
-            }
+<!--            #sendMessage {-->
+<!--                width: 36px;-->
+<!--                height: 36px;-->
+<!--            }-->
 
-            #sendMessage, #micButton {
-                width: 36px;
-                height: 36px;
-            }
-
-            .message {
-                max-width: 85%;
-            }
-        }
+<!--            .message {-->
+<!--                max-width: 85%;-->
+<!--            }-->
+<!--        }-->
 
         /* Tablet Styles (Medium devices) */
-        @media (min-width: 481px) and (max-width: 768px) {
+<!--        @media (min-width: 481px) and (max-width: 768px) {-->
 <!--            #chatbotContainer {-->
 <!--                width: 340px;-->
 <!--                height: 450px;-->
 <!--            }-->
-        }
+<!--        }-->
 
         /* Large Screen Styles */
         @media (min-width: 1200px) {
@@ -415,7 +415,7 @@
 
         // Get Elements
         const chatbotContainer = document.getElementById("chatbotContainer");
-        const closeChat = document.getElementById("closeChat");
+<!--        const closeChat = document.getElementById("closeChat");-->
         const chatMessages = document.getElementById("chatMessages");
         const userMessageInput = document.getElementById("userMessage");
         const sendMessageButton = document.getElementById("sendMessage");
@@ -478,11 +478,11 @@
             userMessageInput.focus();
         }
 
-        // Close Chatbot Window
-        closeChat.addEventListener("click", (e) => {
-            e.stopPropagation();
-            chatbotContainer.style.display = "none";
-        });
+<!--        // Close Chatbot Window-->
+<!--        closeChat.addEventListener("click", (e) => {-->
+<!--            e.stopPropagation();-->
+<!--            chatbotContainer.style.display = "none";-->
+<!--        });-->
 
         // Send User Message
         sendMessageButton.addEventListener("click", sendMessage);
