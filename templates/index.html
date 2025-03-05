@@ -133,7 +133,7 @@
             font-family: inherit;
         }
 
-        #sendMessage {
+        #sendMessage, #micButton {
             background: linear-gradient(135deg, #6366F1, #A855F7);
             color: white;
             border: none;
@@ -149,7 +149,7 @@
             flex-shrink: 0;
         }
 
-        #sendMessage:hover {
+        #sendMessage:hover, #micButton:hover {
             transform: scale(1.05);
         }
 
@@ -309,7 +309,7 @@
                 padding: 10px 12px;
             }
 
-            #sendMessage {
+            #sendMessage, #micButton {
                 width: 36px;
                 height: 36px;
             }
@@ -395,6 +395,12 @@
         <div id="chatMessages" style="display: none;"></div>
         <div id="chatInput" style="display: none;">
             <input type="text" id="userMessage" placeholder="Type a message..." />
+             <button id="micButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"/>
+                    <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5"/>
+                  </svg>
+            </button>
             <button id="sendMessage">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M22 2L11 13"></path>
@@ -556,13 +562,62 @@
             messageDiv.textContent = text;
             messageDiv.classList.add(sender, "message");
 
+            text = text
+                .replace(/## (.*?)(\n|$)/g, "<h2>$1</h2>")  // Convert ## Heading to <h2>
+                .replace(/### (.*?)(\n|$)/g, "<h3>$1</h3>") // Convert ### Heading to <h3>
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")  // Bold (**text** → <strong>text</strong>)
+                .replace(/\*(.*?)\*/g, "<em>$1</em>")  // Italic (*text* → <em>text</em>)
+                .replace(/__(.*?)__/g, "<u>$1</u>")  // Underline (__text__ → <u>text</u>)
+                .replace(/- (.*?)(\n|$)/g, "<li>$1</li>")  // Bullet points (- text → <li>text</li>)
+                .replace(/\n/g, "<br>");  // Preserve line breaks
+
+<!--            // Wrap bullet points in <ul> if they exist-->
+            if (text.includes("<li>")) {
+                text = text.replace(/(<li>.*?<\/li>)/gs, "<ul>$1</ul>");
+            }
+
+            messageDiv.innerHTML= text;
+
             chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Keep the latest message in view
+            let words = text.split(" ");  // Split text into words
+            messageDiv.innerHTML = "";  // Clear initial content
+            let index = 0;
+
+            function typeWords() {
+                if (index < words.length) {
+                    messageDiv.innerHTML += words[index] + " ";  // Append word
+                    index++;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;  // Auto-scroll
+                    setTimeout(typeWords, 60); // Adjust speed (Lower = Faster)
+                }
+            }
+
+            typeWords();
         }
 
-        // Handle window resize
+<!--        // Prevent clicks inside chatbot container from closing it-->
+        chatbotContainer.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+
+        document.getElementById("micButton").addEventListener("click", function() {
+    fetch("/speech")  // Calls Flask speech-to-text API
+    .then(response => response.json())
+    .then(data => {
+        let recognizedText = data.recognized_text;
+        if (recognizedText) {
+            document.getElementById("userMessage").value = recognizedText; // Autofill input
+            document.getElementById("sendMessage").click(); // Send automatically
+        } else {
+            alert("Couldn't recognize speech. Try again.");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+<!--        // Handle window resize-->
         window.addEventListener("resize", () => {
-            // If chat is open, adjust scroll
+<!--            // If chat is open, adjust scroll-->
             if (chatbotContainer.style.display === "flex" && chatMessages.style.display === "flex") {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
