@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -8,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 def load_knowledge_base():
     """Loads knowledge base from data.json file."""
     try:
-        with open("data.json", "r", encoding="utf-8") as file:
+        with open("../data/data.json", "r", encoding="utf-8") as file:
             data = json.load(file)
             logging.info("Knowledge base loaded successfully.")
             return data
@@ -37,7 +38,7 @@ def save_to_knowledge_base(question, answer):
     """Save new Gemini AI responses to the knowledge base."""
     try:
         knowledge_base["paragraphs"].append(answer)
-        with open("data.json", "w", encoding="utf-8") as file:
+        with open("../data/data.json", "w", encoding="utf-8") as file:
             json.dump(knowledge_base, file, indent=4, ensure_ascii=False)
         logging.info("New data saved to knowledge base.")
     except Exception as e:

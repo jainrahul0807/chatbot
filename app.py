@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify, render_template,send_from_directory
 from flask_cors import CORS
 import logging
-from query_ai import query_gemini
-from knowledge_base import search_knowledge_base, save_to_knowledge_base
-from prompts import get_prompt
+from script.query_ai import query_gemini
+from script.knowledge_base import search_knowledge_base, save_to_knowledge_base
+from script.prompts import get_prompt
 import os
-# from speech_to_text import recognize_speech
+from script.speech_to_text import recognize_speech
 
 # Initialize Flask app
 app = Flask(__name__, static_folder="static")
@@ -65,5 +65,5 @@ def speech_to_text():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Use Render's default port
-    app.run(host="0.0.0.0", port=port,)
+    app.run(host="0.0.0.0", port=port)
 

@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import logging
-from content import get_response_format
-from prompts import get_prompt
+from script.content import get_response_format
+from script.prompts import get_prompt
 import os
 # Configure logging
 logging.basicConfig(level=logging.INFO)

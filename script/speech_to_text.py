@@ -12,7 +12,7 @@ def recognize_speech():
         except sr.UnknownValueError:
             return "Could not understand audio."
         except sr.RequestError:
-            return "Could not request results, check your connection."
+            return "Check your internet connection."
 
 if __name__ == "__main__":
     print(recognize_speech())
